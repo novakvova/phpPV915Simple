@@ -6,11 +6,16 @@ if($_SERVER["REQUEST_METHOD"] == "POST") {
     $name = $_POST['name'];
     $description = $_POST['description'];
 
+    $uploaddir=$_SERVER['DOCUMENT_ROOT'].'/images/';
+    $file_name = uniqid().'.jpg';
+    $file_save_path = $uploaddir.$file_name;
+
+    move_uploaded_file($_FILES['image']['tmp_name'], $file_save_path);
     $user = "root";
     $pass = "";
     $dbh = new PDO('mysql:host=localhost;dbname=pv915', $user, $pass);
-    $sql = "INSERT INTO `news` (`name`, `description`) VALUES (?, ?);";
-    $dbh->prepare($sql)->execute([$name, $description]);
+    $sql = "INSERT INTO `news` (`name`, `description`, image) VALUES (?, ?, ?);";
+    $dbh->prepare($sql)->execute([$name, $description, $file_name]);
     header('Location: /');
     exit;
 }
@@ -34,7 +39,7 @@ if($_SERVER["REQUEST_METHOD"] == "POST") {
 <div class="container">
     <h1>Додати новину</h1>
 
-    <form method="post">
+    <form method="post" enctype="multipart/form-data">
         <div class="mb-3">
             <label for="name" class="form-label">Назва</label>
             <input type="text" class="form-control" id="name" name="name">
@@ -42,6 +47,10 @@ if($_SERVER["REQUEST_METHOD"] == "POST") {
         <div class="mb-3">
             <label for="description" class="form-label">Опис</label>
             <textarea  class="form-control" rows="10" cols="45"  id="description" name="description"></textarea>
+        </div>
+        <div class="mb-3">
+            <label for="image" class="form-label">Фото</label>
+            <input type="file" class="form-control" id="image" name="image">
         </div>
         <button type="submit" class="btn btn-primary">Додати</button>
     </form>
