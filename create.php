@@ -38,7 +38,6 @@ if($_SERVER["REQUEST_METHOD"] == "POST") {
 
 <div class="container">
     <h1>Додати новину</h1>
-
     <form method="post" enctype="multipart/form-data">
         <div class="mb-3">
             <label for="name" class="form-label">Назва</label>
@@ -46,19 +45,30 @@ if($_SERVER["REQUEST_METHOD"] == "POST") {
         </div>
         <div class="mb-3">
             <label for="description" class="form-label">Опис</label>
-            <textarea  class="form-control" rows="10" cols="45"  id="description" name="description"></textarea>
+            <textarea  class="form-control" rows="5" cols="35"  id="description" name="description"></textarea>
         </div>
         <div class="mb-3">
-            <label for="image" class="form-label">Фото</label>
-            <input type="file" class="form-control" id="image" name="image">
+            <label for="image" style="cursor: pointer;" class="form-label">
+                <img src="https://elitediscovery.com/wp-content/uploads/upload-1.png"
+                     id="img_preview"
+                     width="200" alt="Upload image"/>
+            </label>
+            <input type="file" class="form-control d-none" id="image" name="image">
         </div>
         <button type="submit" class="btn btn-primary">Додати</button>
     </form>
-
 
 </div>
 
 
 <script src="/js/bootstrap.bundle.min.js"></script>
+<script>
+    window.addEventListener('load', function() {
+        document.querySelector("#image").addEventListener("change", function(event) {
+            const file = event.currentTarget.files[0];
+            document.getElementById("img_preview").src=URL.createObjectURL(file);
+        });
+    });
+</script>
 </body>
 </html>
