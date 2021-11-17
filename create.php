@@ -53,7 +53,16 @@ if($_SERVER["REQUEST_METHOD"] == "POST") {
                      id="img_preview"
                      width="200" alt="Upload image"/>
             </label>
-            <input type="file" class="form-control d-none" id="image" name="image">
+            <input type="file" class="form-control d-none myimage" id="image"  data-view="img_preview" name="image">
+        </div>
+
+        <div class="mb-3">
+            <label for="image1" style="cursor: pointer;" class="form-label">
+                <img src="https://elitediscovery.com/wp-content/uploads/upload-1.png"
+                     id="img_preview1"
+                     width="200" alt="Upload image"/>
+            </label>
+            <input type="file" class="form-control d-none myimage" data-view="img_preview1" id="image1" name="image1">
         </div>
         <button type="submit" class="btn btn-primary">Додати</button>
     </form>
@@ -64,10 +73,18 @@ if($_SERVER["REQUEST_METHOD"] == "POST") {
 <script src="/js/bootstrap.bundle.min.js"></script>
 <script>
     window.addEventListener('load', function() {
-        document.querySelector("#image").addEventListener("change", function(event) {
-            const file = event.currentTarget.files[0];
-            document.getElementById("img_preview").src=URL.createObjectURL(file);
-        });
+        const cbox = document.querySelectorAll(".myimage");
+        for (let i = 0; i < cbox.length; i++) {
+            cbox[i].addEventListener("change", function(event) {
+                const file = event.currentTarget.files[0];
+                const imgUpdate = event.currentTarget.dataset.view;
+                document.getElementById(imgUpdate).src=URL.createObjectURL(file);
+            });
+        }
+
+
+
+
     });
 </script>
 </body>
